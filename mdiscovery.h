@@ -2,7 +2,7 @@
 #define __MDISCOVERY_H__
 
 #ifdef __Cplusplus
-extern .c{
+extern "C"{
 #endif
 
 	
