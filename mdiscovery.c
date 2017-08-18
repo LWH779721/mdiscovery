@@ -7,7 +7,6 @@
 #include <unistd.h> 
 #include <string.h>
 #include <errno.h>
-#include "mdiscovery.h"
 
 extern int errno;
 
@@ -35,7 +34,7 @@ int mbroadcast_create_fd()
     return fd;
 }
 
-int mbroadcast_send(int fd, char *msg, int len)
+int mbroadcast_send(int fd, int port, char *msg, int len)
 {
 	struct sockaddr_in addrto; 
 	int ret = -1,nlen = sizeof(addrto);
@@ -43,7 +42,7 @@ int mbroadcast_send(int fd, char *msg, int len)
     bzero(&addrto, sizeof(struct sockaddr_in));  
     addrto.sin_family = AF_INET;  
     addrto.sin_addr.s_addr = inet_addr("255.255.255.255"); 
-    addrto.sin_port = htons(broadcast_net_port);
+    addrto.sin_port = htons(port);
 
     ret = sendto(fd, msg, len, 0, (struct sockaddr*)&addrto, nlen);  
     if (ret < 0)  
@@ -55,14 +54,14 @@ int mbroadcast_send(int fd, char *msg, int len)
 	return 0;
 }
 
-int mbroadcast_bind(int fd)
+int mbroadcast_bind(int fd, int port)
 {
     struct sockaddr_in addr;
 
     bzero(&addr, sizeof(struct sockaddr_in));  
     addr.sin_family = AF_INET;  
     addr.sin_addr.s_addr = htonl(INADDR_ANY);  
-    addr.sin_port = htons(broadcast_net_port); 
+    addr.sin_port = htons(port); 
 
     if (bind(fd, (struct sockaddr *)&addr, sizeof(struct sockaddr_in)) == -1)   
     {     

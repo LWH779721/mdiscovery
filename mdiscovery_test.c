@@ -18,14 +18,14 @@ int main(int argc, char ** args)
 	{
 		while(1)
 		{
-			mbroadcast_send(fd, args[1], strlen(args[1]));
+			mbroadcast_send(fd, 6000, args[1], strlen(args[1]));
 		}	
 	}
 	else
 	{
 		char buf[512];
 
-		mbroadcast_bind(fd);
+		mbroadcast_bind(fd, 6000);
 		mbroadcast_reciver(fd, buf, sizeof buf);	
 	}
 

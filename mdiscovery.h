@@ -5,8 +5,6 @@
 extern .c{
 #endif
 
-
-#define broadcast_net_port    6000
 	
 
 
