@@ -28,6 +28,7 @@ int mbroadcast_create_fd()
     if (-1 == setsockopt(fd, SOL_SOCKET, SO_BROADCAST, (char *)&opt, sizeof(opt)))
     {
         printf("err : %s\n",strerror(errno));
+        close(fd);
         return -1;    
     }
 
@@ -92,9 +93,9 @@ int mbroadcast_reciver(int fd, char *buf, int buf_len)
             printf("err : %s\n",strerror(errno));  
         }  
         else  
-        {         
-            printf("%s\n", buf);
-            //fflush(stdout);       
+        {   
+            buf[ret] = 0;      
+            printf("%s\n", buf);     
         }  
   
         sleep(1);  

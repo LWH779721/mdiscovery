@@ -2,12 +2,12 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h> 
-#include "mlanguage.h"
-#include "mlog.h"
 #include <string.h>
 #include <errno.h>
 #include <unistd.h> 
 #include <stdlib.h>
+#include "mlanguage.h"
+#include "mlog.h"
 
 extern int errno;
 
@@ -92,8 +92,7 @@ int multicast_client()
           exit(1);
      } else
           printf("Opening the datagram socket...OK.\n");
-
-
+    
      memset((char *) &groupSock, 0, sizeof(groupSock));
      groupSock.sin_family = AF_INET;
      groupSock.sin_addr.s_addr = inet_addr("227.0.0.25");
@@ -108,11 +107,10 @@ int multicast_client()
         printf("Setting the local interface...OK\n");
 
 
-     if(sendto(sd, databuf, datalen, 0, (struct sockaddr*)&groupSock, sizeof(groupSock)) < 0) {
-        perror("Sending datagram message error");}
-     else
+    if (sendto(sd, databuf, datalen, 0, (struct sockaddr*)&groupSock, sizeof(groupSock)) >= 0) 
+    {
         printf("Sending datagram message...OK\n");
-
-
-     return 0;
+    }
+    
+    return 0;
 }
